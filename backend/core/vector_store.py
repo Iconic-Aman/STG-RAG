@@ -55,11 +55,22 @@ def upsert_chunks(chunks: List[Dict], vectors: List[List[float]]):
 def search_chunks(query_vector: List[float], top_k: int = 5) -> List[Dict]:
     init_collection(len(query_vector))
     client = get_qdrant_client()
-    hits = client.search(
-        collection_name=settings.qdrant_collection_name,
-        query_vector=query_vector,
-        limit=top_k,
-    )
+    try:
+        # qdrant-client >= 1.10 uses query_points
+        response = client.query_points(
+            collection_name=settings.qdrant_collection_name,
+            query=query_vector,
+            limit=top_k,
+        )
+        hits = response.points
+    except Exception:
+        # fallback for other versions
+        hits = client.search(
+            collection_name=settings.qdrant_collection_name,
+            query_vector=query_vector,
+            limit=top_k,
+        )
+
     results = []
     for hit in hits:
         payload = hit.payload or {}

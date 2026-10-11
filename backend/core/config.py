@@ -8,6 +8,9 @@ class Settings(BaseSettings):
     qdrant_port: int = 6333
     qdrant_collection_name: str = "edhac_chunks"
     embedding_model_name: str = "BAAI/bge-small-en-v1.5"
+    openrouter_api_key: str = ""
+    openrouter_model: str = "cohere/north-mini-code:free"
+    openrouter_base_url: str = "https://openrouter.ai/api/v1"
     groq_api_key: str = ""
     openai_api_key: str = ""
     top_k_default: int = 5
