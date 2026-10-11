@@ -13,10 +13,15 @@ def get_qdrant_client() -> QdrantClient:
     global _client
     if _client is None:
         try:
-            _client = QdrantClient(host=settings.qdrant_host, port=settings.qdrant_port, timeout=2.0)
+            _client = QdrantClient(
+                host=settings.qdrant_host,
+                port=settings.qdrant_port,
+                timeout=5.0,
+                check_compatibility=False,
+            )
             _client.get_collections()
         except Exception:
-            _client = QdrantClient(location=":memory:")
+            _client = QdrantClient(location=":memory:", check_compatibility=False)
     return _client
 
 def init_collection(dim: int = 384):
