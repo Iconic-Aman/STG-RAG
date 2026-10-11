@@ -21,11 +21,20 @@ Rules:
 3. Do not assume or hallucinate treatments not in the context. Keep answers concise and direct.
 """
 
+IDENTITY_PHRASES = [
+    "what is your name", "whats your name", "what your name",
+    "who are you", "what are you", "your name", "tell me your name"
+]
+
 def classify_query(query: str) -> str:
     cleaned = re.sub(r"[^\w\s]", "", query.strip().lower())
     words = cleaned.split()
 
-    # 1. Check greeting
+    # 1. Check identity / name
+    if any(phrase in cleaned for phrase in IDENTITY_PHRASES):
+        return "IDENTITY"
+
+    # 2. Check greeting
     if cleaned in GREETING_WORDS or (len(words) <= 2 and any(w in GREETING_WORDS for w in words)):
         return "GREETING"
 
