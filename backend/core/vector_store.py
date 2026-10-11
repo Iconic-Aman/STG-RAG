@@ -1,7 +1,10 @@
 from typing import List, Dict, Optional
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
-from backend.core.config import settings
+try:
+    from core.config import settings
+except ImportError:
+    from backend.core.config import settings
 
 _client: Optional[QdrantClient] = None
 _in_memory_chunks: List[Dict] = []

@@ -1,8 +1,14 @@
 from fastapi import APIRouter, HTTPException
-from backend.schemas import AskRequest, AskResponse, SourceItem
-from backend.core.embedder import embed_query
-from backend.core.vector_store import search_chunks
-from backend.core.generator import generate_answer
+try:
+    from schemas import AskRequest, AskResponse, SourceItem
+    from core.embedder import embed_query
+    from core.vector_store import search_chunks
+    from core.generator import generate_answer
+except ImportError:
+    from backend.schemas import AskRequest, AskResponse, SourceItem
+    from backend.core.embedder import embed_query
+    from backend.core.vector_store import search_chunks
+    from backend.core.generator import generate_answer
 
 router = APIRouter()
 

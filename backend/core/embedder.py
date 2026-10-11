@@ -1,5 +1,8 @@
 from typing import List
-from backend.core.config import settings
+try:
+    from core.config import settings
+except ImportError:
+    from backend.core.config import settings
 
 _model = None
 

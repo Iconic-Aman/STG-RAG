@@ -1,8 +1,8 @@
-import fitz  # PyMuPDF
+import pymupdf
 from typing import List, Dict
 
 def parse_pdf(file_path: str, max_pages: int = 100) -> List[Dict]:
-    doc = fitz.open(file_path)
+    doc = pymupdf.open(file_path)
     pages_data = []
 
     for page_idx in range(min(len(doc), max_pages)):

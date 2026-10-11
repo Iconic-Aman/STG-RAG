@@ -1,12 +1,20 @@
 import os
 import shutil
 from fastapi import APIRouter, UploadFile, File, HTTPException
-from backend.schemas import IngestResponse
-from backend.core.parser import parse_pdf
-from backend.core.chunker import chunk_pages
-from backend.core.embedder import embed_texts
-from backend.core.vector_store import upsert_chunks
-from backend.core.config import settings
+try:
+    from schemas import IngestResponse
+    from core.parser import parse_pdf
+    from core.chunker import chunk_pages_by_paragraph
+    from core.embedder import embed_texts
+    from core.vector_store import upsert_chunks
+    from core.config import settings
+except ImportError:
+    from backend.schemas import IngestResponse
+    from backend.core.parser import parse_pdf
+    from backend.core.chunker import chunk_pages_by_paragraph
+    from backend.core.embedder import embed_texts
+    from backend.core.vector_store import upsert_chunks
+    from backend.core.config import settings
 
 router = APIRouter()
 
@@ -25,7 +33,7 @@ async def ingest_endpoint(file: UploadFile = File(...)):
     if not pages:
         raise HTTPException(status_code=400, detail="Could not extract text from PDF")
 
-    chunks = chunk_pages(pages)
+    chunks = chunk_pages_by_paragraph(pages, source_name=file.filename)
     if not chunks:
         raise HTTPException(status_code=400, detail="No chunks created from PDF")
 

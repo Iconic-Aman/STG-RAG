@@ -1,6 +1,10 @@
 from typing import List, Dict
-from backend.core.config import settings
-from backend.core.prompt import SYSTEM_PROMPT, build_prompt
+try:
+    from core.config import settings
+    from core.prompt import SYSTEM_PROMPT, build_prompt
+except ImportError:
+    from backend.core.config import settings
+    from backend.core.prompt import SYSTEM_PROMPT, build_prompt
 
 def generate_answer(question: str, chunks: List[Dict]) -> str:
     if not chunks:
