@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+
+# Environment and sensitive docs
+.env
+.env.local
+.env.*.local
+INSTRUCTIONS.md
+instructions.md
+
+# Build outputs
+dist/
+build/
+*.egg-info/
+
+# System and logs
+*.log
+.DS_Store
+Thumbs.db
